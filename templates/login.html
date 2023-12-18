@@ -1,0 +1,24 @@
+{% include 'header.html'   %}
+<section class="contact">
+    <div class="container">
+      <div class="section-title">
+        <h2>Login.!</h2>
+      </div>
+      <form method="post" enctype="multipart/form-data" action="{% url 'user_login' %}">
+        {% csrf_token %}
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label for="fullName" class="sr-only">Username</label>
+                <input type="text" name='username' class="form-control" id="fullName" placeholder="Username">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="fullName" class="sr-only">Password</label>
+                <input type="password" name="password" class="form-control" id="fullName" placeholder="Password">
+            </div>
+            <button type="submit" class="m-3 btn btn-lg btn-primary">Login</button>
+        </div>
+    </form>
+    
+    </div>
+  </section>
+{% include 'footer.html'   %}

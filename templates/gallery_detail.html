@@ -1,0 +1,20 @@
+{% load static %}
+{% include 'header.html' %}
+<section class="gallery">
+    <div class="container-fluid">
+        <div class="row">
+            {% if photos %}
+                {% for photo in photos %}
+                    <div class="col-lg-3 col-6 p-3">
+                        <img src="{{ photo.image.url }}" alt="Photo" class="img-fluid">
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No photos available in this gallery.</p>
+            {% endif %}
+        </div>
+        
+        
+    </div>
+  </section>
+{% include 'footer.html' %}

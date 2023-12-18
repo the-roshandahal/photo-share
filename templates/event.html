@@ -1,0 +1,125 @@
+{% include 'header.html'   %}
+
+<div id="hero-text">
+
+    <div class="container">
+        <h1>Hi. Hello.. I Am JohnDas...!</h1>
+        <h2>I Travel Around The World To Get The Best Photos.!</h2>
+        <h5>AWARD WINNING PHOTOGRAPHER  / CINEMATOGRAPHER / WRITER</h5>
+        <div class = 'mt-5'>
+            <a href="{% url 'upload_photo_guest' event_credentials=event.event_credentials %}">
+                <button type="submit" class="btn btn-lg btn-primary">Upload Images</button>
+            </a>
+            <h1 class = 'mt-5'>Existing Folders</h1>
+        </div>
+    </div>
+  </div>
+  {% for qr_code in event_qrcodes %}
+    <div>
+        <h3>{{ qr_code.event_instance.event_name }}</h3>
+        <img src="data:image/png;base64,{{ qr_code.qr_img_data }}" alt="QR Code">
+        <!-- Add other event information as needed -->
+    </div>
+  {% endfor %}
+
+  <section>
+    <div class="folder-shapes">
+        {% for gallery in gallerys %}
+        <div class="folder">
+            <div class="top"></div>
+            <div class="info">
+            <a href="{% url 'gallery_detail' gallery_id=gallery.id %}">
+
+                <h1>{{gallery.gallery_name}}</h1>
+            </a>
+          <p><span>></span> {{gallery.num_photos}} items</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+  
+
+
+  <style>
+    .folder-shapes {
+        position: relative;
+        display: flex;
+        width: 100%;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 3rem 2rem;
+      }
+      
+      .folder {
+        position: relative;
+        max-width: 220px;
+        width: 100%;
+        height: 100px;
+        background: var(--bg);
+        border-radius: 2rem;
+        padding: 1rem;
+        --bg: #dce2e4;
+        transition: 0.2s ease-out;
+      }
+      
+      .folder:hover {
+        --bg: #f7ad67;
+      }
+      
+      .top {
+        position: absolute;
+        left: 0;
+        top: -22px;
+        height: 50px;
+        max-width: 135px;
+        width: 100%;
+        background: var(--bg);
+        -webkit-clip-path: polygon(50% 0, 100% 100%, 100% 100%, 0 100%, 0 0);
+        clip-path: polygon(50% 0, 100% 100%, 100% 100%, 0 100%, 0 0);
+        overflow: hidden;
+        border-radius: 2rem;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        transition: 0.2s ease-out;
+      }
+      
+      .head {
+        height: 30px;
+        display: flex;
+        justify-content: space-between;
+        padding: 0 1rem 0 0;
+      }
+      
+      .info {
+        margin-top: 1rem;
+        line-height: 8px;
+        padding-left: 8px;
+      }
+      
+      .info h1 {
+        font-size: 1.45rem;
+        font-weight: 700;
+      }
+      
+      .info p {
+        font-size: 0.9rem;
+        font-weight: 600;
+      }
+      
+      .info p span {
+        color: #8989ff;
+        font-size: 1rem;
+      }      
+  </style>
+
+
+
+
+
+  {% include 'footer.html'   %}
+<!-- <a href="{% url 'create_gallery' %}">
+    
+    <button>Create Gallery</button>
+</a> -->

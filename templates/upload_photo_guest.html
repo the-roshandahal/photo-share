@@ -1,0 +1,31 @@
+{% include 'header.html'   %}
+<section class="contact">
+    <div class="container">
+      <div class="section-title">
+        <h2>Upload.!</h2>
+        <p>Share with others.</p>
+      </div>
+      <form method="post" enctype="multipart/form-data" action="{% url 'upload_photo_guest' event_credentials=event.event_credentials %}">
+        {% csrf_token %}
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label for="fullName" class="sr-only">Full name</label>
+                <input type="text" name='name' class="form-control" id="fullName" placeholder="Enter your name">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="fullName" class="sr-only">Phone Number</label>
+                <input type="text" name="phone_number" class="form-control" id="fullName" placeholder="Phone Number">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label for="fullName" class="sr-only">Full name</label>
+                <input type="file" name="images" accept="image/*" multiple required class="form-control">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-lg btn-primary">Submit</button>
+    </form>
+    
+    </div>
+  </section>
+{% include 'footer.html'   %}

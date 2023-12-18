@@ -158,21 +158,23 @@ def create_folder(request):
     pass
 
 def user_login(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+    if request.user.is_authenticated:
+        return redirect('dashboard')
+    else:
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            password = request.POST.get('password')
 
-        user = authenticate(username=username, password=password)
-        print(user)
+            user = authenticate(username=username, password=password)
 
-        if user is not None:
-            login(request, user)
-            messages.success(request, 'Successfully logged in.')
-            return redirect('home')  # Redirect to the home page after successful login
-        else:
-            messages.error(request, 'Invalid username or password.')
+            if user is not None:
+                login(request, user)
+                messages.success(request, 'Successfully logged in.')
+                return redirect('dashboard')  # Redirect to the home page after successful login
+            else:
+                messages.error(request, 'Invalid username or password.')
 
-    return render(request, 'login.html')
+        return render(request, 'login.html')
 
 # def upload_photo_user(request):
 #     if request.method == 'POST':

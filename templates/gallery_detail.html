@@ -1,5 +1,21 @@
 {% load static %}
 {% include 'header.html' %}
+
+<div id="hero-text">
+
+    <div class="container">
+        <div>
+            {% if request.user.is_authenticated %}
+            <a href="#">
+              <button class="btn btn-lg btn-primary">Upload Images</button>
+            </a>
+            {% endif %}
+          <h1 class = 'mt-5'>{{gallery.event}}/{{gallery.gallery_name}}</h1>
+        </div>
+    </div>
+  </div>
+
+
 <section class="gallery">
     <div class="container-fluid">
         <div class="row">

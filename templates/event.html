@@ -3,14 +3,17 @@
 <div id="hero-text">
 
     <div class="container">
-        <h1>Hi. Hello.. I Am JohnDas...!</h1>
-        <h2>I Travel Around The World To Get The Best Photos.!</h2>
-        <h5>AWARD WINNING PHOTOGRAPHER  / CINEMATOGRAPHER / WRITER</h5>
-        <div class = 'mt-5'>
-            <a href="{% url 'upload_photo_guest' event_credentials=event.event_credentials %}">
-                <button type="submit" class="btn btn-lg btn-primary">Upload Images</button>
-            </a>
-            <h1 class = 'mt-5'>Existing Folders</h1>
+        <div>
+          {% if request.user.is_authenticated %}
+          <a href="{% url 'upload_photo_guest' event_credentials=event.event_credentials %}">
+              <button class="btn btn-lg btn-primary">Create Folder</button>
+          </a>
+          {% else %}
+          <a href="{% url 'upload_photo_guest' event_credentials=event.event_credentials %}">
+            <button class="btn btn-lg btn-primary">Upload Images</button>
+          </a>
+          {% endif %}
+          <h1 class = 'mt-5'>Existing Folders</h1>
         </div>
     </div>
   </div>

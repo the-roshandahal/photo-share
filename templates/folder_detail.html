@@ -16,21 +16,37 @@
   </div>
 
 
-<section class="gallery">
+  <section class="gallery">
     <div class="container-fluid">
         <div class="row">
             {% if photos %}
                 {% for photo in photos %}
-                    <div class="col-lg-3 col-6 p-3">
+                    <div class="col-lg-3 col-6 p-3 position-relative">
                         <img src="{{ photo.image.url }}" alt="Photo" class="img-fluid">
+                        <a href="{{ photo.image.url }}" download class="download-icon">
+                            <i class="fa fa-download" aria-hidden="true"></i>
+                        </a>
                     </div>
                 {% endfor %}
             {% else %}
                 <p>No photos available in this folder.</p>
             {% endif %}
         </div>
-        
-        
     </div>
-  </section>
+</section>
+
+<style>
+    .download-icon {
+        position: absolute;
+        top: 10%;
+        left: 10%;
+        transform: translate(-50%, -50%);
+        color: white; /* Adjust the color as needed */
+        text-decoration: none;
+        background-color: rgba(0, 0, 0, 0.7); /* Background color for the icon */
+        padding: 10px;
+        border-radius: 100%;
+    }
+</style>
+
 {% include 'footer.html' %}

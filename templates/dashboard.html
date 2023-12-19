@@ -35,7 +35,7 @@
                     <img src="data:image/png;base64,{{ event_code.qr_img_data }}" alt="QR Code" style="height: 100px;" class="mr-2">
                     <div class="p-2">
                       <a href="{% url 'download_qr_code' event_credentials=event_code.event_credentials_b64 secret_token=event_code.secret_token_b64 %}" target="_blank" download>
-                        Download
+                        <i class="fa fa-download" aria-hidden="true"></i> Download
                       </a>
                     </div>
                   </div>

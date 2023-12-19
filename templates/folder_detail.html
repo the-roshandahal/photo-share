@@ -6,7 +6,7 @@
     <div class="container">
         <div>
             {% if request.user.is_authenticated %}
-            <a href="#">
+            <a href="{% url 'upload_photo_photographer' folder_credentials=folder.folder_credentials %}">
               <button class="btn btn-lg btn-primary">Upload Images</button>
             </a>
             {% endif %}

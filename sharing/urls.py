@@ -12,6 +12,7 @@ urlpatterns = [
     path('user_login/', views.user_login, name='user_login'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('upload_photo_guest/<str:event_credentials>/', views.upload_photo_guest, name='upload_photo_guest'),
+    path('upload_photo_photographer/<str:folder_credentials>/', views.upload_photo_photographer, name='upload_photo_photographer'),
     path('create_folder/<str:event_credentials>', views.create_folder, name='create_folder'),
     path('event/<str:event_credentials>/<str:secret_token>/', views.event, name='event'),
     path('folder_detail/<str:folder_credentials>/', views.folder_detail, name='folder_detail'),

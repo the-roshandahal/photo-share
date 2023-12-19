@@ -199,19 +199,26 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return redirect('home')
-# def upload_photo_user(request):
-#     if request.method == 'POST':
-#         name = request.POST.get('name')
-#         images = request.FILES.getlist('images')
 
-#         folder, created = folder.objects.get_or_create(folder_name=name)
-#         print(folder)
-#         for image in images:
-#             Photo.objects.create(
-#                 folder=folder,
-#                 guest_name=name,
-#                 image=image,
-#             )
-#         return redirect('folder_detail', folder_id=folder.id)
 
-#     return render(request, 'upload_photo_guest.html')
+def upload_photo_photographer(request,folder_credentials):
+    print(request.user)
+    if request.method == 'POST':
+        images = request.FILES.getlist('images')
+        folder = Folder.objects.get(folder_credentials=folder_credentials)
+        user = User.objects.get(username = request.user)
+        photographer = Photographer.objects.get(user=user)
+        for image in images:
+            Photo.objects.create(
+                folder=folder,
+                uploaded_by=photographer,
+                image=image,
+            )
+        return redirect('folder_detail', folder_credentials=folder.folder_credentials)
+
+    else:
+        folder = Folder.objects.get(folder_credentials=folder_credentials)
+        context = {
+            'folder':folder,
+            }
+        return render(request, 'upload_photo_photographer.html',context)

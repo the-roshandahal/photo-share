@@ -1,0 +1,14 @@
+{% include 'header.html'   %}
+<div class="container mt-5">
+    <form action="{% url 'create_folder' event_credentials=event.event_credentials %}"  method = "POST">
+        {% csrf_token %}
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label for="fullName" class="sr-only">Folder Name</label>
+                <input type="text" name="folder_name" class="form-control" placeholder="Folder Name">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-lg btn-primary">Submit</button>
+    </form>
+</div>
+{% include 'footer.html'   %}

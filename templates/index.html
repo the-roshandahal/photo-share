@@ -20,15 +20,15 @@
 
   <section>
     <div class="folder-shapes">
-        {% for gallery in gallerys %}
+        {% for folder in folders %}
         <div class="folder">
             <div class="top"></div>
             <div class="info">
-            <a href="{% url 'gallery_detail' gallery_id=gallery.id %}">
+            <a href="{% url 'folder_detail' folder_id=folder.id %}">
 
-                <h1>{{gallery.gallery_name}}</h1>
+                <h1>{{folder.folder_name}}</h1>
             </a>
-          <p><span>></span> {{gallery.num_photos}} items</p>
+          <p><span>></span> {{folder.num_photos}} items</p>
         </div>
       </div>
       {% endfor %}
@@ -115,7 +115,3 @@
 
 
   {% include 'footer.html'   %}
-<!-- <a href="{% url 'create_gallery' %}">
-    
-    <button>Create Gallery</button>
-</a> -->

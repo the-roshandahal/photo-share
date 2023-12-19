@@ -1,3 +1,4 @@
+from django.contrib.auth import logout
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
@@ -22,7 +23,7 @@ def home (request):
 
 def dashboard(request):
     if request.user.is_authenticated:
-        events = Event.objects.annotate(num_photos=Count('gallery__photo')).all()
+        events = Event.objects.annotate(num_photos=Count('folder__photo')).all()
 
         current_site = get_current_site(request)
 
@@ -99,18 +100,20 @@ def upload_photo_guest(request, event_credentials):
     event = Event.objects.get(event_credentials=event_credentials)
     if request.method == 'POST':
         name = request.POST.get('name')
+        phone_number = request.POST.get('phone_number')
         images = request.FILES.getlist('images')
-        
+        name = name.title()
+
         event_obj = Event.objects.get(event_credentials=event_credentials)
-        gallery, created = Gallery.objects.get_or_create(event = event_obj, gallery_name=name)
-        print(gallery)
+        folder, created = Folder.objects.get_or_create(event = event_obj, folder_name=name, phone_number=phone_number)
+        print(folder)
         for image in images:
             Photo.objects.create(
-                gallery=gallery,
+                folder=folder,
                 guest_name=name,
                 image=image,
             )
-        return redirect('gallery_detail', gallery_id=gallery.id)
+        return redirect('folder_detail', folder_credentials=folder.folder_credentials)
     else:
         context = {
             'event': event,
@@ -119,33 +122,52 @@ def upload_photo_guest(request, event_credentials):
 
 
 
-def create_gallery(request):
+def create_folder(request,event_credentials):
     if request.method == 'POST':
-        gallery_name = request.POST['gallery_name']
-        gallery_obj = Gallery.objects.create(gallery_name = gallery_name)
-        gallery_obj.save()
-        return redirect('home')
+        folder_name = request.POST['folder_name']
+        folder_name = folder_name.title()
+        event = Event.objects.get(event_credentials=event_credentials)
+        print(event)
+        folder_obj = Folder.objects.create(event=event, folder_name = folder_name)
+        folder_obj.save()
+        return redirect('dashboard')
     else:
-        return render(request,'create_gallery.html')
+        event = Event.objects.get(event_credentials=event_credentials)
+        context = {
+            'event': event,
+        }
+        return render(request,'create_folder.html',context)
 
-
-
-def gallery_detail(request, gallery_id):
-    gallery = get_object_or_404(Gallery, id=gallery_id)
-    photos = Photo.objects.filter(gallery=gallery)
-    return render(request, 'gallery_detail.html', {'gallery': gallery, 'photos': photos})
 
 
 def create_event(request):
-    return render(request, 'create_event.html')
+    if request.method == 'POST':
+        'here'
+        event_name = request.POST['event_name']
+        event_obj = Event.objects.create(event_name = event_name)
+        event_obj.save()
+        return redirect('dashboard')
+    else:
+        return render(request,'create_event.html')
+
+
+
+def folder_detail(request, folder_credentials):
+    folder = get_object_or_404(Folder, folder_credentials=folder_credentials)
+    photos = Photo.objects.filter(folder=folder)
+    return render(request, 'folder_detail.html', {'folder': folder, 'photos': photos})
+
+
+# def create_event(request):
+#     return render(request, 'create_event.html')
 
 
 # event detail page
 def event(request, event_credentials, secret_token):
     event = get_object_or_404(Event, event_credentials=event_credentials, secret_token=secret_token)
-    gallerys = Gallery.objects.filter(event=event).annotate(num_photos=Count('photo'))
+    folders = Folder.objects.filter(event=event).annotate(num_photos=Count('photo'))
     context = {
-        'gallerys':gallerys,
+        'folders':folders,
         'event':event,
     }
     return render(request, 'event.html', context)
@@ -154,8 +176,7 @@ def event(request, event_credentials, secret_token):
 def create_photographer(request):
     pass
 
-def create_folder(request):
-    pass
+
 
 def user_login(request):
     if request.user.is_authenticated:
@@ -175,20 +196,22 @@ def user_login(request):
                 messages.error(request, 'Invalid username or password.')
 
         return render(request, 'login.html')
-
+def user_logout(request):
+    logout(request)
+    return redirect('home')
 # def upload_photo_user(request):
 #     if request.method == 'POST':
 #         name = request.POST.get('name')
 #         images = request.FILES.getlist('images')
 
-#         gallery, created = Gallery.objects.get_or_create(gallery_name=name)
-#         print(gallery)
+#         folder, created = folder.objects.get_or_create(folder_name=name)
+#         print(folder)
 #         for image in images:
 #             Photo.objects.create(
-#                 gallery=gallery,
+#                 folder=folder,
 #                 guest_name=name,
 #                 image=image,
 #             )
-#         return redirect('gallery_detail', gallery_id=gallery.id)
+#         return redirect('folder_detail', folder_id=folder.id)
 
 #     return render(request, 'upload_photo_guest.html')

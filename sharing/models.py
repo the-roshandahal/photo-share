@@ -42,12 +42,19 @@ class Event(models.Model):
     def __str__(self):
         return self.event_name
 
-class Gallery(models.Model):
+class Folder(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
-    gallery_name = models.CharField(max_length = 255)
+    folder_name = models.CharField(max_length = 255)
+    folder_credentials = models.CharField(max_length=255, default=uuid.uuid4, unique=True)
+    phone_number = models.CharField(max_length = 15, null = True, blank = True)
+
+    def save(self, *args, **kwargs):
+        if not self.folder_credentials:
+            self.folder_credentials = str(uuid.uuid4())
+        super(Folder, self).save(*args, **kwargs)
 
 class Photo(models.Model):
-    gallery = models.ForeignKey(Gallery, on_delete=models.CASCADE)
+    folder = models.ForeignKey(Folder, on_delete=models.CASCADE)
     uploaded_by = models.ForeignKey(Photographer, on_delete=models.SET_NULL, null=True)
 
     image = models.ImageField(upload_to=generate_filename)

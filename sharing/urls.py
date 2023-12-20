@@ -18,6 +18,7 @@ urlpatterns = [
     path('folder_detail/<str:folder_credentials>/', views.folder_detail, name='folder_detail'),
     path('download_qr_code/<str:event_credentials>/<str:secret_token>/', views.download_qr_code, name='download_qr_code'),
     path('logout/', views.user_logout, name='logout'),
+    path('delete_event/<str:event_credentials>/', views.delete_event, name='delete_event'),
 
 
     

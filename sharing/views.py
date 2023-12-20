@@ -142,7 +142,6 @@ def create_folder(request,event_credentials):
 
 def create_event(request):
     if request.method == 'POST':
-        'here'
         event_name = request.POST['event_name']
         event_obj = Event.objects.create(event_name = event_name)
         event_obj.save()
@@ -158,11 +157,7 @@ def folder_detail(request, folder_credentials):
     return render(request, 'folder_detail.html', {'folder': folder, 'photos': photos})
 
 
-# def create_event(request):
-#     return render(request, 'create_event.html')
 
-
-# event detail page
 def event(request, event_credentials, secret_token):
     event = get_object_or_404(Event, event_credentials=event_credentials, secret_token=secret_token)
     folders = Folder.objects.filter(event=event).annotate(num_photos=Count('photo'))
@@ -173,8 +168,13 @@ def event(request, event_credentials, secret_token):
     return render(request, 'event.html', context)
 
 
-def create_photographer(request):
-    pass
+def delete_event(request, event_credentials):
+    event = get_object_or_404(Event, event_credentials=event_credentials)
+    event.delete()
+    messages.success(request, 'Event and associated images deleted successfully.')
+    return redirect('dashboard')
+
+
 
 
 
